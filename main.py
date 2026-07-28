@@ -1,6 +1,8 @@
 import pygame
 from camera import Camera
 from constants import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from enemy import Enemy
+from level import Level
 from player import Player
 from wall import Wall
 
@@ -14,14 +16,10 @@ def main():
 
     clock = pygame.time.Clock()
 
-    player = Player(400,300)
+    player = Player(250,250)
+    enemy = Enemy(300, 200)
     camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT)
-    walls = [
-        Wall(200, 150, 400, 32),
-        Wall(200, 450, 400, 32),
-        Wall(200, 150, 32, 332),
-        Wall(568, 150, 32, 332)
-    ]
+    level = Level()
 
     running = True
 
@@ -32,13 +30,15 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        player.update(dt, walls)
+        player.update(dt, level.walls)
         camera.update(player)
+        enemy.update(player, dt)
 
         screen.fill("black")
-        for wall in walls:
+        for wall in level.walls:
             wall.draw(screen, camera)
         player.draw(screen, camera)
+        enemy.draw(screen, camera)
 
         pygame.display.flip()
 
