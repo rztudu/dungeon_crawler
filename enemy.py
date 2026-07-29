@@ -1,11 +1,14 @@
 import pygame
 from constants import PLAYER_SPEED
 
+
 class Enemy:
     def __init__(self, x, y):
         self.position = pygame.Vector2(x, y)
         self.size = 32
         self.speed = 100
+        self.health = 3
+        self.alive = True
 
     @property
     def rect(self):
@@ -30,3 +33,9 @@ class Enemy:
             "red",
             camera.apply(self.rect)
         )
+
+    def take_damage(self, amount):
+        self.health -= amount
+
+        if self.health <= 0:
+            self.alive = False

@@ -1,10 +1,10 @@
 import pygame
+
 from camera import Camera
 from constants import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from enemy import Enemy
 from level import Level
 from player import Player
-from wall import Wall
 
 
 def main():
@@ -17,7 +17,11 @@ def main():
     clock = pygame.time.Clock()
 
     player = Player(250,250)
-    enemy = Enemy(300, 200)
+    enemies = [
+        Enemy(300, 200),
+        Enemy(500, 250),
+        Enemy(350, 450)
+    ]
     camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT)
     level = Level()
 
@@ -30,15 +34,24 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    player.attack(enemies)
+
         player.update(dt, level.walls)
         camera.update(player)
-        enemy.update(player, dt)
+        for enemy in enemies:
+            if enemy.alive:
+                enemy.update(player, dt)
 
         screen.fill("black")
         for wall in level.walls:
             wall.draw(screen, camera)
         player.draw(screen, camera)
-        enemy.draw(screen, camera)
+
+        for enemy in enemies:
+            if enemy.alive:
+                enemy.draw(screen, camera)
 
         pygame.display.flip()
 
