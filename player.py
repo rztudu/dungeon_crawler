@@ -15,6 +15,9 @@ class Player:
         self.attack_timer = 0
         self.cooldown_timer = 0
         self.facing = pygame.Vector2(1,0)
+        self.max_health = 5
+        self.health = self.max_health
+        self.invincible_timer = 0
 
     def update(self, dt, walls):
         if self.attack_timer > 0:
@@ -22,6 +25,10 @@ class Player:
 
         if self.cooldown_timer > 0:
             self.cooldown_timer -= dt
+
+        if self.invincible_timer > 0:
+            self.invincible_timer -= dt
+
         keys = pygame.key.get_pressed()
 
         direction = pygame.Vector2(0,0)
@@ -117,3 +124,10 @@ class Player:
             attack_size,
             attack_size
         )
+
+    def take_damage(self, amount):
+        if self.invincible_timer > 0:
+            return
+
+        self.health -= amount
+        self.invincible_timer = 1.0

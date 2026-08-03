@@ -25,6 +25,8 @@ def main():
     camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT)
     level = Level()
 
+    font = pygame.font.Font(None, 36)
+
     running = True
 
     while running:
@@ -44,6 +46,10 @@ def main():
             if enemy.alive:
                 enemy.update(player, dt)
 
+        for enemy in enemies:
+            if enemy.alive and enemy.rect.colliderect(player.rect):
+                player.take_damage(1)
+
         screen.fill("black")
         for wall in level.walls:
             wall.draw(screen, camera)
@@ -52,6 +58,17 @@ def main():
         for enemy in enemies:
             if enemy.alive:
                 enemy.draw(screen, camera)
+
+        health_text = font.render(
+            f"HP: {player.health}",
+            True,
+            "white"
+        )
+
+        if player.health <= 0:
+            running = False
+
+        screen.blit(health_text, (20,20))
 
         pygame.display.flip()
 
