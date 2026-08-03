@@ -46,10 +46,27 @@ def main():
                     player.attack(level.current_room.enemies)
 
         player.update(dt, level.current_room.walls)
+
+        for door in level.current_room.doors:
+            if player.rect.colliderect(door.rect):
+
+                level.next_room()
+
+                player.position = pygame.Vector2(
+                    level.current_room.player_start
+                )
+
+                break
         camera.update(player)
         for enemy in level.current_room.enemies:
             if enemy.alive:
                 enemy.update(player, dt)
+
+        level.current_room.enemies = [
+            enemy
+            for enemy in level.current_room.enemies
+            if enemy.alive
+        ]
 
         for enemy in level.current_room.enemies:
             if enemy.alive and enemy.rect.colliderect(player.rect):
@@ -58,6 +75,10 @@ def main():
         screen.fill("black")
         for wall in level.current_room.walls:
             wall.draw(screen, camera)
+
+        for door in level.current_room.doors:
+            door.draw(screen, camera)
+
         player.draw(screen, camera)
 
         for enemy in level.current_room.enemies:

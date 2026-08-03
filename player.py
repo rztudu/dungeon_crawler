@@ -97,7 +97,7 @@ class Player:
         self.attack_timer = ATTACK_DURATION
 
         for enemy in enemies:
-            if self.attack_rect.colliderect(enemy.rect):
+            if enemy.alive and self.attack_rect.colliderect(enemy.rect):
                 enemy.take_damage(1)
 
     @property

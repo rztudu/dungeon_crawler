@@ -1,15 +1,23 @@
+from level_map import ROOM_1, ROOM_2
 from room import Room
 
 
 class Level:
     def __init__(self):
-        self.rooms = []
+        self.rooms = [
+            Room(ROOM_1),
+            Room(ROOM_2),
+        ]
 
-        room = Room()
+        self.current_room_index = 0
+        self.current_room = self.rooms[0]
 
-        if room.player_start is None:
-            raise ValueError("Room has no player start")
+    def next_room(self):
+        self.current_room_index += 1
 
-        self.rooms.append(room)
+        if self.current_room_index >= len(self.rooms):
+            self.current_room_index = 0
 
-        self.current_room = room
+        self.current_room = self.rooms[
+            self.current_room_index
+        ]

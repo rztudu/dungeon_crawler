@@ -1,20 +1,22 @@
 from constants import TILE_SIZE
+from door import Door
 from enemy import Enemy
-from level_map import LEVEL_MAP
 from wall import Wall
 
-print(LEVEL_MAP)
 
 class Room:
-    def __init__(self):
+    def __init__(self, level_map):
+        self.level_map = level_map
+
         self.walls = []
         self.enemies = []
+        self.doors = []
         self.player_start: tuple[float, float] | None = None
 
         self.load_map()
 
     def load_map(self):
-        for y, row in enumerate(LEVEL_MAP):
+        for y, row in enumerate(self.level_map):
             for x, tile in enumerate(row):
 
 
@@ -43,6 +45,14 @@ class Room:
                     self.player_start = (
                         position_x + TILE_SIZE / 2,
                         position_y + TILE_SIZE / 2,
+                    )
+
+                elif tile == "D":
+                    self.doors.append(
+                        Door(
+                            position_x,
+                            position_y
+                        )
                     )
 
         if self.player_start is None:
