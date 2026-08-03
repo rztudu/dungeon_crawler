@@ -1,24 +1,15 @@
-from wall import Wall
+from room import Room
+
 
 class Level:
     def __init__(self):
-        self.walls = []
+        self.rooms = []
 
-        self.create_test_room()
+        room = Room()
 
-    def create_test_room(self):
-        self.walls.append(
-            Wall(100, 100, 300, 32)
-        )
+        if room.player_start is None:
+            raise ValueError("Room has no player start")
 
-        self.walls.append(
-            Wall(100, 100, 32, 300)
-        )
+        self.rooms.append(room)
 
-        self.walls.append(
-            Wall(400, 100, 32, 300)
-        )
-
-        self.walls.append(
-            Wall(100, 400, 332, 32)
-        )
+        self.current_room = room

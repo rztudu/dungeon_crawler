@@ -16,14 +16,19 @@ def main():
 
     clock = pygame.time.Clock()
 
-    player = Player(250,250)
-    enemies = [
-        Enemy(300, 200),
-        Enemy(500, 250),
-        Enemy(350, 450)
-    ]
-    camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT)
     level = Level()
+
+    player_start = level.current_room.player_start
+
+    if player_start is None:
+        raise ValueError("No player start found")
+
+    player = Player(
+        player_start[0],
+        player_start[1],
+    )
+
+    camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT)
 
     font = pygame.font.Font(None, 36)
 
@@ -38,24 +43,24 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    player.attack(enemies)
+                    player.attack(level.current_room.enemies)
 
-        player.update(dt, level.walls)
+        player.update(dt, level.current_room.walls)
         camera.update(player)
-        for enemy in enemies:
+        for enemy in level.current_room.enemies:
             if enemy.alive:
                 enemy.update(player, dt)
 
-        for enemy in enemies:
+        for enemy in level.current_room.enemies:
             if enemy.alive and enemy.rect.colliderect(player.rect):
                 player.take_damage(1)
 
         screen.fill("black")
-        for wall in level.walls:
+        for wall in level.current_room.walls:
             wall.draw(screen, camera)
         player.draw(screen, camera)
 
-        for enemy in enemies:
+        for enemy in level.current_room.enemies:
             if enemy.alive:
                 enemy.draw(screen, camera)
 
