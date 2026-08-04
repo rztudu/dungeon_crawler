@@ -12,6 +12,7 @@ class Room:
         self.enemies = []
         self.doors = []
         self.player_start: tuple[float, float] | None = None
+        self.locked = True
 
         self.load_map()
 
@@ -48,12 +49,16 @@ class Room:
                     )
 
                 elif tile == "D":
+
                     self.doors.append(
                         Door(
-                            position_x,
-                            position_y
+                        position_x,
+                        position_y
                         )
                     )
 
         if self.player_start is None:
             raise ValueError("No player start 'P' found in Level_Map")
+
+    def cleared(self):
+        return len(self.enemies) == 0

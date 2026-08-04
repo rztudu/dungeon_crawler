@@ -11,9 +11,11 @@ class Door:
             TILE_SIZE,
         )
 
-    def draw(self, screen, camera):
+    def draw(self, screen, camera, locked):
+        color = "red" if locked else "green"
+
         pygame.draw.rect(
             screen,
-            "brown",
+            color,
             camera.apply(self.rect),
         )

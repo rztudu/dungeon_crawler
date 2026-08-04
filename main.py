@@ -50,11 +50,12 @@ def main():
         for door in level.current_room.doors:
             if player.rect.colliderect(door.rect):
 
-                level.next_room()
+                if level.current_room.cleared():
+                    level.next_room()
 
-                player.position = pygame.Vector2(
-                    level.current_room.player_start
-                )
+                    player.position = pygame.Vector2(
+                        level.current_room.player_start
+                    )
 
                 break
         camera.update(player)
@@ -77,7 +78,11 @@ def main():
             wall.draw(screen, camera)
 
         for door in level.current_room.doors:
-            door.draw(screen, camera)
+            door.draw(
+                screen,
+                camera,
+                not level.current_room.cleared()
+            )
 
         player.draw(screen, camera)
 
