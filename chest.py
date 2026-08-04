@@ -13,9 +13,10 @@ class Chest:
         )
 
         self.opened = False
+        self.visible = False
 
     def draw(self, screen, camera):
-        if self.opened:
+        if self.opened or not self.visible:
             return
 
         pygame.draw.rect(
@@ -31,3 +32,6 @@ class Chest:
         self.opened = True
 
         player.health += 1
+
+    def reveal(self):
+        self.visible = True

@@ -73,6 +73,10 @@ def main():
             if enemy.alive
         ]
 
+        if level.current_room.cleared():
+            for chest in level.current_room.chests:
+                chest.reveal()
+
         for enemy in level.current_room.enemies:
             if enemy.alive and enemy.rect.colliderect(player.rect):
                 player.take_damage(1)
