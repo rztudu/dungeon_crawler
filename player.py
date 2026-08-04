@@ -15,7 +15,7 @@ class Player:
         self.attack_timer = 0
         self.cooldown_timer = 0
         self.facing = pygame.Vector2(1,0)
-        self.max_health = 5
+        self.max_health = 10
         self.health = self.max_health
         self.invincible_timer = 0
         self.damage = 1

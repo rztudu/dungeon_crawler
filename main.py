@@ -102,23 +102,144 @@ def main():
             if enemy.alive:
                 enemy.draw(screen, camera)
 
-        health_text = font.render(
-            f"HP: {player.health}",
-            True,
-            "white"
+
+
+
+        if player.health <= 0:
+            running = False
+
+        ui_rect = pygame.Rect(
+            10,
+            10,
+            180,
+            90
         )
 
+        pygame.draw.rect(
+            screen,
+            "black",
+            ui_rect
+        )
+
+        pygame.draw.rect(
+            screen,
+            "white",
+            ui_rect,
+            2
+        )
+
+        # HP bar
+        bar_x = 20
+        bar_y = 20
+        bar_width = 160
+        bar_height = 20
+
+        # Background
+        pygame.draw.rect(
+            screen,
+            "darkred",
+            pygame.Rect(
+                bar_x,
+                bar_y,
+                bar_width,
+                bar_height
+            )
+        )
+
+        # current HP
+        health_ratio = player.health / player.max_health
+
+        pygame.draw.rect(
+            screen,
+            "green",
+            pygame.Rect(
+                bar_x,
+                bar_y,
+                bar_width * health_ratio,
+                bar_height
+            )
+        )
+
+        # Außenrahmen
+        pygame.draw.rect(
+            screen,
+            "white",
+            pygame.Rect(
+                bar_x,
+                bar_y,
+                bar_width,
+                bar_height
+            ),
+            2
+        )
+
+        # HP Separator Lines
+        health_step = 1
+
+        for i in range(1, player.max_health, health_step):
+            x = bar_x + (bar_width / player.max_health) * i
+
+            pygame.draw.line(
+                screen,
+                "black",
+                (x, bar_y),
+                (x, bar_y + bar_height),
+                1
+            )
+
+
+        '''
+        bar_width = 160
+        bar_height = 20
+
+        health_ratio = player.health /player.max_health
+
+        background_rect = pygame.Rect(
+            20,
+            20,
+            bar_width,
+            bar_height
+        )
+
+        health_rect = pygame.Rect(
+            20,
+            20,
+            bar_width * health_ratio,
+            bar_height
+        )
+
+        pygame.draw.rect(
+            screen,
+            "darkred",
+            background_rect
+        )
+
+        pygame.draw.rect(
+            screen,
+            "green",
+            health_rect
+        )
+
+        pygame.draw.rect(
+            screen,
+            "white",
+            background_rect,
+            2
+        )
+'''
         damage_text = font.render(
             f"Damage: {player.damage}",
             True,
             "white"
         )
 
-        if player.health <= 0:
-            running = False
 
-        screen.blit(health_text, (20,20))
-        screen.blit(damage_text, (20,50))
+
+        ui_surface = pygame.Surface((180,90), pygame.SRCALPHA)
+        ui_surface.fill((0,0,0,150))
+
+        screen.blit(ui_surface, (10,10))
+        screen.blit(damage_text, (20,55))
         pygame.display.flip()
 
     pygame.quit()
