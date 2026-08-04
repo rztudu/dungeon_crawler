@@ -48,7 +48,7 @@ def main():
         player.update(dt, level.current_room.walls)
 
         for chest in level.current_room.chests:
-            if player.rect.colliderect(chest.rect):
+            if chest.visible and player.rect.colliderect(chest.rect):
                 chest.open(player)
 
         for door in level.current_room.doors:
@@ -66,6 +66,7 @@ def main():
         for enemy in level.current_room.enemies:
             if enemy.alive:
                 enemy.update(player, dt)
+
 
         level.current_room.enemies = [
             enemy
@@ -107,11 +108,17 @@ def main():
             "white"
         )
 
+        damage_text = font.render(
+            f"Damage: {player.damage}",
+            True,
+            "white"
+        )
+
         if player.health <= 0:
             running = False
 
         screen.blit(health_text, (20,20))
-
+        screen.blit(damage_text, (20,50))
         pygame.display.flip()
 
     pygame.quit()

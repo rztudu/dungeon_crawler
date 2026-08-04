@@ -18,6 +18,7 @@ class Player:
         self.max_health = 5
         self.health = self.max_health
         self.invincible_timer = 0
+        self.damage = 1
 
     def update(self, dt, walls):
         if self.attack_timer > 0:
@@ -67,9 +68,11 @@ class Player:
                     self.position.y = wall.rect.bottom
 
     def draw(self, screen, camera):
+        color = "red" if self.invincible_timer > 0 else "white"
+
         pygame.draw.rect(
             screen,
-            "white",
+            color,
             camera.apply(self.rect)
         )
 
@@ -98,7 +101,15 @@ class Player:
 
         for enemy in enemies:
             if enemy.alive and self.attack_rect.colliderect(enemy.rect):
-                enemy.take_damage(1)
+                direction = enemy.position -self.position
+
+                if direction.length() > 0:
+                    direction = direction.normalize()
+
+                enemy.take_damage(
+                    self.damage,
+                    direction * 200
+                )
 
     @property
     def attack_rect(self):

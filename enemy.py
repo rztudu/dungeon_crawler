@@ -9,6 +9,7 @@ class Enemy:
         self.speed = 100
         self.health = 3
         self.alive = True
+        self.knockback_velocity = pygame.Vector2(0,0)
 
     @property
     def rect(self):
@@ -20,6 +21,9 @@ class Enemy:
         )
 
     def update(self, player, dt):
+        self.position += self.knockback_velocity * dt
+
+        self.knockback_velocity *= 0.8
         direction = player.position - self.position
 
         if direction.length() > 0:
@@ -34,7 +38,10 @@ class Enemy:
             camera.apply(self.rect)
         )
 
-    def take_damage(self, amount):
+    def take_damage(self, amount, knockback=None):
+        if knockback:
+            self.knockback_velocity = knockback
+
         self.health -= amount
 
         if self.health <= 0:
