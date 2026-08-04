@@ -47,6 +47,10 @@ def main():
 
         player.update(dt, level.current_room.walls)
 
+        for chest in level.current_room.chests:
+            if player.rect.colliderect(chest.rect):
+                chest.open(player)
+
         for door in level.current_room.doors:
             if player.rect.colliderect(door.rect):
 
@@ -83,6 +87,9 @@ def main():
                 camera,
                 not level.current_room.cleared()
             )
+
+        for chest in level.current_room.chests:
+            chest.draw(screen, camera)
 
         player.draw(screen, camera)
 

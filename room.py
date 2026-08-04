@@ -1,3 +1,4 @@
+from chest import Chest
 from constants import TILE_SIZE
 from door import Door
 from enemy import Enemy
@@ -11,6 +12,7 @@ class Room:
         self.walls = []
         self.enemies = []
         self.doors = []
+        self.chests = []
         self.player_start: tuple[float, float] | None = None
         self.locked = True
 
@@ -54,6 +56,14 @@ class Room:
                         Door(
                         position_x,
                         position_y
+                        )
+                    )
+
+                elif tile == "C":
+                    self.chests.append(
+                        Chest(
+                            position_x,
+                            position_y
                         )
                     )
 
