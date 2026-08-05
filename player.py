@@ -12,6 +12,9 @@ class Player:
     def __init__(self, x, y):
         self.position = pygame.Vector2(x,y)
         self.size = PLAYER_SIZE
+
+        self.inventory = []
+
         self.attack_timer = 0
         self.cooldown_timer = 0
         self.facing = pygame.Vector2(1,0)
@@ -19,6 +22,7 @@ class Player:
         self.health = self.max_health
         self.invincible_timer = 0
         self.damage = 1
+        self.speed = PLAYER_SPEED
 
     def update(self, dt, walls):
         if self.attack_timer > 0:
@@ -47,7 +51,7 @@ class Player:
             direction = direction.normalize()
             self.facing = direction
 
-        movement = direction * PLAYER_SPEED * dt
+        movement = direction * self.speed * dt
 
         self.position.x += movement.x
 
@@ -142,3 +146,9 @@ class Player:
 
         self.health -= amount
         self.invincible_timer = 1.0
+
+    def add_item(self, item):
+
+        self.inventory.append(item)
+
+        item.apply(self)

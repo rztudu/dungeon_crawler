@@ -1,7 +1,7 @@
 import pygame
 
 from constants import TILE_SIZE
-from item import Sword
+from loot import generate_loot
 
 
 class Chest:
@@ -15,6 +15,7 @@ class Chest:
 
         self.opened = False
         self.visible = False
+        self.item = None
 
 
     def draw(self, screen, camera):
@@ -31,11 +32,11 @@ class Chest:
     def open(self, player):
         if self.opened:
             return
+        self.item = generate_loot()
+
+        player.add_item(self.item)
 
         self.opened = True
-
-        item = Sword()
-        item.apply(player)
 
     def reveal(self):
         self.visible = True

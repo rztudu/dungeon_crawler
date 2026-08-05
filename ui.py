@@ -10,8 +10,8 @@ class UI:
         ui_rect = pygame.Rect(
             10,
             10,
-            200,
-            90
+            250,
+            130
         )
 
         pygame.draw.rect(
@@ -87,4 +87,20 @@ class UI:
         screen.blit(
             damage_text,
             (20,55)
+        )
+
+        items = ", ".join(
+            item.name
+            for item in player.inventory
+        )
+
+        inventory_text = self.font.render(
+            items,
+            True,
+            "White"
+        )
+
+        screen.blit(
+            inventory_text,
+            (20,85)
         )
