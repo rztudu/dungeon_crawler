@@ -30,13 +30,17 @@ class Chest:
 
 
     def open(self, player):
+
         if self.opened:
-            return
+            return None
+
         self.item = generate_loot()
 
         player.add_item(self.item)
 
         self.opened = True
+
+        return self.item
 
     def reveal(self):
         self.visible = True

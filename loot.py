@@ -1,4 +1,3 @@
-from codecs import charmap_encode
 import random
 
 from items import (

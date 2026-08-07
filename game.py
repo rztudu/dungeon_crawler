@@ -1,6 +1,7 @@
 import pygame
 
 from camera import Camera
+from chest import Chest
 from constants import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from level import Level
 from player import Player
@@ -86,7 +87,10 @@ class Game:
 
         for chest in room.chests:
             if chest.visible and self.player.rect.colliderect(chest.rect):
-                chest.open(self.player)
+                item = chest.open(self.player)
+
+                if item is not None:
+                    self.ui.show_loot(item)
 
         for enemy in room.enemies:
             if enemy.alive:
@@ -115,6 +119,10 @@ class Game:
 
         if self.player.health <= 0:
             self.running = False
+
+        self.ui.update(dt)
+
+
 
     def draw(self):
 

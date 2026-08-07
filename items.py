@@ -5,7 +5,8 @@ class DamageUpgrade(Item):
     def __init__(self):
         super().__init__(
             "Iron Sword",
-            "+1 Damage"
+            "+1 Damage",
+            "Common"
         )
 
     def apply(self, player):
@@ -16,7 +17,8 @@ class HealthUpgrade(Item):
     def __init__(self):
         super().__init__(
             "Ruby",
-            "+5 Max HP"
+            "+5 Max HP",
+            "Rare"
         )
 
     def apply(self, player):
@@ -28,7 +30,8 @@ class SpeedUpgrade(Item):
     def __init__(self):
         super().__init__(
             "Boots",
-            "+20 Speed"
+            "+20 Speed",
+            "Epic"
         )
 
     def apply(self, player):

@@ -1,7 +1,9 @@
 class Item:
-    def __init__(self, name, description):
+    def __init__(self, name, description, rarity="Common"):
         self.name = name
         self.description = description
+        self.rarity = rarity
+
     def apply(self, player):
         pass
 '''
