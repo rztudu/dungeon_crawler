@@ -17,6 +17,8 @@ class UI:
         self.loot_item = None
         self.loot_timer = 0
 
+        self.show_stats = False
+
 
     def update(self, dt):
 
@@ -29,12 +31,7 @@ class UI:
 
     def draw(self, screen, player):
 
-        self.draw_player_stats(
-            screen,
-            player
-        )
-
-        self.draw_inventory(
+        self.draw_health_bar(
             screen,
             player
         )
@@ -43,28 +40,15 @@ class UI:
             screen
         )
 
+        if self.show_stats:
+            self.draw_stats_menu(
+                screen,
+                player
+            )
 
-    def draw_player_stats(self, screen, player):
+    def draw_health_bar(self, screen, player):
 
-        ui_rect = pygame.Rect(
-            10,
-            10,
-            300,
-            150
-        )
 
-        pygame.draw.rect(
-            screen,
-            "black",
-            ui_rect
-        )
-
-        pygame.draw.rect(
-            screen,
-            "white",
-            ui_rect,
-            2
-        )
 
 
         # HP bar
@@ -117,41 +101,6 @@ class UI:
         )
 
 
-        damage_text = self.font.render(
-            f"Damage: {player.damage}",
-            True,
-            "white"
-        )
-
-        screen.blit(
-            damage_text,
-            (20,55)
-        )
-
-
-    def draw_inventory(self, screen, player):
-
-        y = 80
-
-        for item in player.inventory:
-
-            color = RARITY_COLORS.get(
-                item.rarity,
-                "white"
-            )
-
-            text = self.font.render(
-                f"{item.name} ({item.description})",
-                True,
-                color
-            )
-
-            screen.blit(
-                text,
-                (20,y)
-            )
-
-            y += 25
 
 
     def draw_loot_popup(self, screen):
@@ -223,6 +172,81 @@ class UI:
             (470,95)
         )
 
+    def draw_stats_menu(self, screen, player):
+
+        box = pygame.Rect(
+            150,
+            80,
+            400,
+            400
+        )
+
+        pygame.draw.rect(
+            screen,
+            "black",
+            box
+        )
+
+        pygame.draw.rect(
+            screen,
+            "white",
+            box,
+            3
+        )
+
+
+        title = self.font.render(
+            "Player Stats",
+            True,
+            "white"
+        )
+
+        screen.blit(
+            title,
+            (180,110)
+        )
+
+
+        stats = [
+            f"Damage: {player.damage}",
+            f"Max HP: {player.max_health}",
+            "",
+            "Inventory:"
+        ]
+
+
+        y = 160
+
+        for text in stats:
+
+            rendered = self.font.render(
+                text,
+                True,
+                "white"
+            )
+
+            screen.blit(
+                rendered,
+                (180,y)
+            )
+
+            y += 35
+
+
+        for item in player.inventory:
+
+            text = self.font.render(
+                f"{item.name} x{item.amount}",
+                True,
+                "white"
+            )
+
+            screen.blit(
+                text,
+                (200,y)
+            )
+
+            y += 30
 
     def show_loot(self, item):
 

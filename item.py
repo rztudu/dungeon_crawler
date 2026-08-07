@@ -1,8 +1,14 @@
 class Item:
-    def __init__(self, name, description, rarity="Common"):
+    def __init__(
+        self,
+        name,
+        description,
+        rarity="Common"
+    ):
         self.name = name
         self.description = description
         self.rarity = rarity
+        self.amount = 1
 
     def apply(self, player):
         pass

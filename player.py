@@ -1,3 +1,5 @@
+from os import name
+
 import pygame
 
 from constants import (
@@ -149,6 +151,17 @@ class Player:
 
     def add_item(self, item):
 
-        self.inventory.append(item)
+        for existing_item in self.inventory:
 
+            if (
+                existing_item.name == item.name
+                and existing_item.rarity == item.rarity
+            ):
+                existing_item.amount += 1
+
+                item.apply(self)
+
+                return
+
+        self.inventory.append(item)
         item.apply(self)

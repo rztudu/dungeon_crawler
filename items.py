@@ -9,6 +9,8 @@ class DamageUpgrade(Item):
             "Common"
         )
 
+        self.damge_bonus = 1
+
     def apply(self, player):
         player.damage += 1
 

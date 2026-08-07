@@ -55,15 +55,21 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.player.attack(
-                    self.level.current_room.enemies
-                )
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.player.attack(
+                        self.level.current_room.enemies
+                    )
+
+                if event.key == pygame.K_TAB:
+                    self.ui.show_stats = not self.ui.show_stats
 
 
     def update(self, dt):
 
 
+        if self.ui.show_stats:
+            return
 
         self.player.update(
             dt,
